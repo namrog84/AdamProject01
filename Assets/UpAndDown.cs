@@ -3,10 +3,11 @@ using System.Collections;
 
 public class UpAndDown : MonoBehaviour {
 
+    static System.Random r = new System.Random();
 	// Use this for initialization
 	void Start () {
         dir = true;
-        System.Random r = new System.Random((int)this.transform.position.y);
+
         speed = (float)r.NextDouble()*.3f+.2f;
 	}
     bool dir;
