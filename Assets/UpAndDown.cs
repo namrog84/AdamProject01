@@ -12,10 +12,11 @@ public class UpAndDown : MonoBehaviour {
 	}
     bool dir;
     float speed = .3f;
+    public float speedModifier = 20;
 	// Update is called once per frame
 	void Update () {
 
-        Vector3 a = this.transform.position;
+        Vector3 a = transform.position;
         if(dir)
             a.y += speed;
         else
@@ -23,9 +24,9 @@ public class UpAndDown : MonoBehaviour {
         if (a.y > 10)
             dir = false;
         if (a.y < -5)
-            dir = true;
-
-        this.transform.position = a;
+            dir = true; 
+        
+        transform.position = Vector3.Lerp(transform.position,a,Time.deltaTime*speedModifier);
 
 
 	
