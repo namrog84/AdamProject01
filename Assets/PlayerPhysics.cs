@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerPhysics : MonoBehaviour
@@ -8,17 +9,17 @@ public class PlayerPhysics : MonoBehaviour
 
 	public bool grounded;
 	public bool movementStopped;
-	private Vector3 s;
-	private Vector3 c;
-	private BoxCollider collider;
-	private Ray ray;
-	private RaycastHit hit;
+	Vector3 s;
+	Vector3 c;
+	BoxCollider collide;
+	Ray ray;
+	RaycastHit hit;
 
-	private void Start()
+	public void Start()
 	{
-		collider = GetComponent<BoxCollider>();
-		s = collider.size;
-		c = collider.center;
+		collide = GetComponent<BoxCollider>();
+		s = collide.size;
+		c = collide.center;
 	}
 
 	public void Move(Vector2 moveAmount)
@@ -39,9 +40,9 @@ public class PlayerPhysics : MonoBehaviour
 			if (Physics.Raycast(ray, out hit, Mathf.Abs(deltaY), collisionMask))
 			{
 				float dst = Vector3.Distance(ray.origin, hit.point);
-				if (dst > skin)
+				if (dst > SKIN)
 				{
-					deltaY = dst*dir - skin*dir;
+					deltaY = dst * dir - SKIN * dir;
 				}
 				else
 				{
@@ -59,20 +60,24 @@ public class PlayerPhysics : MonoBehaviour
 			float y = p.y + c.y - s.y/2 + s.y/2*i;
 			ray = new Ray(new Vector2(x, y), new Vector2(dir, 0));
 
-			Debug.DrawRay(ray.origin, ray.direction);
-			if (Physics.Raycast(ray, out hit, Mathf.Abs(deltaX), collisionMask))
+
+			if (Math.Abs(deltaX) > .001f)
 			{
-				float dst = Vector3.Distance(ray.origin, hit.point);
-				if (dst > skin)
+				Debug.DrawRay(ray.origin, ray.direction);
+				if (Physics.Raycast(ray, out hit, Mathf.Abs(deltaX), collisionMask))
 				{
-					deltaX = dst*dir - skin*dir;
+					float dst = Vector3.Distance(ray.origin, hit.point);
+					if (dst > SKIN)
+					{
+						deltaX = dst*dir - SKIN*dir;
+					}
+					else
+					{
+						deltaX = 0;
+					}
+					movementStopped = true;
+					break;
 				}
-				else
-				{
-					deltaX = 0;
-				}
-				movementStopped = true;
-				break;
 			}
 		}
 

@@ -13,13 +13,13 @@ public class PlayerController : MonoBehaviour
 	private PlayerPhysics playerPhysics;
 
 	// Use this for initialization
-	private void Start()
+	public void Start()
 	{
 		playerPhysics = GetComponent<PlayerPhysics>();
 	}
 
 	// Update is called once per frame
-	private void Update()
+	public void Update()
 	{
 		if (playerPhysics.movementStopped)
 		{
